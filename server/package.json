@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "plates server",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server",
     "dev": "nodemon server"
@@ -10,6 +11,7 @@
   "author": "Yusuf Lawal",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "google-auth-library": "^10.3.0",
