@@ -1,16 +1,15 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import verifyGoogleToken from "../utils/googleAuth.js";
+import { successResponse, errorResponse } from "../utils/responseHandler.js";
 
 const sigInWithGoogle = async (req, res) => {
   try {
     const { token } = req.body;
     if (!token) return res.status(400).json({ message: "Token missing" });
 
-    // Verify token with Google
     const googleUser = await verifyGoogleToken(token);
 
-    // Check if user exists
     let user = await User.findOne({ googleId: googleUser.sub });
     if (!user) {
       // Create user if not exist
@@ -28,11 +27,9 @@ const sigInWithGoogle = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
-
-    res.json({ token: jwtToken, user });
+    return successResponse(res, { token: jwtToken, user }, "Login successful");
   } catch (error) {
-    console.error(error);
-    res.status(401).json({ message: "Invalid Google token" });
+    return errorResponse(res, "Invalid Google token", 401);
   }
 };
 
