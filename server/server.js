@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
+import ovRoute from "./routes/ovRoute.js";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
@@ -13,6 +14,9 @@ app.use(express.json());
 // Connect db
 connectDB();
 
+// Routes
+
+app.use("/api", ovRoute);
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
