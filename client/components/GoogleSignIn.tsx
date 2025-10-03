@@ -1,9 +1,11 @@
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { useEffect, useState } from "react";
-import { TouchableOpacity, View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthSessionResult } from "expo-auth-session";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -69,25 +71,25 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
   };
 
   return (
-    <View className="items-center w-full">
+    <View className="items-center w-full fixed bottom-36">
       {error && (
-        <Text className="text-red-600 text-center mb-4 px-5">{error}</Text>
+        <Text className="text-red-600 text-center mb-4 px-5 font-lobster">
+          {error}
+        </Text>
       )}
 
       {loading ? (
         <ActivityIndicator size="large" color="#0a6b07" />
       ) : (
-        <TouchableOpacity
-          className={`py-3.5 px-8 rounded-full w-70 shadow-lg ${
-            !request || loading ? "bg-blue-300" : "bg-[#0a6b07b7]"
-          }`}
+        <FontAwesome.Button
+          name="google"
+          backgroundColor={!request || loading ? "#A0C3FF" : "#0a6b07b7"}
           onPress={handleSignIn}
           disabled={!request || loading}
+          borderRadius={10}
         >
-          <Text className="text-white text-center font-bold text-base">
-            Sign in with Google
-          </Text>
-        </TouchableOpacity>
+          Sign in with Google
+        </FontAwesome.Button>
       )}
     </View>
   );
