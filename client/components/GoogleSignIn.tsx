@@ -1,14 +1,7 @@
-// components/GoogleSignIn.tsx
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { useEffect, useState } from "react";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-} from "react-native";
+import { TouchableOpacity, View, Text, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthSessionResult } from "expo-auth-session";
 
@@ -25,7 +18,6 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId: "ANDROID_CLIENT_ID.apps.googleusercontent.com",
     webClientId: "WEB_CLIENT_ID.apps.googleusercontent.com",
-    // iosClientId: "IOS_CLIENT_ID.apps.googleusercontent.com",
   });
 
   useEffect(() => {
@@ -39,23 +31,15 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
 
       try {
         const backendResponse = await fetch(
-          "http://YOUR_BACKEND_IP:5000/api/auth/google",
+          "http://BACKEND_IP:5000/api/auth/google",
           {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              idToken: resp.authentication.idToken,
-            }),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idToken: resp.authentication.idToken }),
           }
         );
 
-        const data: {
-          success: boolean;
-          message?: string;
-          data?: { token: string; user: any };
-        } = await backendResponse.json();
+        const data = await backendResponse.json();
 
         if (data.success && data.data) {
           await AsyncStorage.setItem("userToken", data.data.token);
@@ -63,17 +47,13 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
             "userData",
             JSON.stringify(data.data.user)
           );
-
-          console.log("✅ Sign in successful:", data.data.user.name);
-
-          if (onSignInSuccess) {
-            onSignInSuccess(data.data);
-          }
+          console.log("Sign in successful:", data.data.user.name);
+          if (onSignInSuccess) onSignInSuccess(data.data);
         } else {
           setError(data.message || "Authentication failed");
         }
       } catch (err) {
-        console.error("❌ Sign in error:", err);
+        console.error("Sign in error:", err);
         setError("Failed to connect to server");
       } finally {
         setLoading(false);
@@ -89,59 +69,26 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
   };
 
   return (
-    <View style={styles.container}>
-      {error && <Text style={styles.errorText}>{error}</Text>}
+    <View className="items-center w-full">
+      {error && (
+        <Text className="text-red-600 text-center mb-4 px-5">{error}</Text>
+      )}
 
       {loading ? (
-        <ActivityIndicator size="large" color="#0a6b07b7" />
+        <ActivityIndicator size="large" color="#0a6b07" />
       ) : (
         <TouchableOpacity
-          style={[
-            styles.button,
-            (!request || loading) && styles.buttonDisabled,
-          ]}
+          className={`py-3.5 px-8 rounded-full w-70 shadow-lg ${
+            !request || loading ? "bg-blue-300" : "bg-[#0a6b07b7]"
+          }`}
           onPress={handleSignIn}
           disabled={!request || loading}
         >
-          <Text style={styles.buttonText}>Sign in with Google</Text>
+          <Text className="text-white text-center font-bold text-base">
+            Sign in with Google
+          </Text>
         </TouchableOpacity>
       )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    position: "fixed",
-    bottom: 120,
-    width: "100%",
-  },
-  errorText: {
-    color: "red",
-    textAlign: "center",
-    marginBottom: 15,
-    paddingHorizontal: 20,
-  },
-  button: {
-    backgroundColor: "#0a6b07b7",
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 40,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  buttonDisabled: {
-    backgroundColor: "#A0C3FF",
-    elevation: 0,
-  },
-  buttonText: {
-    color: "#fff",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-});
