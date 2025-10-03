@@ -1,8 +1,9 @@
+// app/index.tsx (Login Screen)
 import { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import GoogleSignIn from "../components/GoggleSignIn";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -41,10 +42,17 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Plates</Text>
-      <Text style={styles.subtitle}>Sign in to get started</Text>
+      {/* Centered content wrapper */}
+      <View style={styles.contentWrapper}>
+        <Text style={styles.title}>Plates</Text>
+        <Text style={styles.subtitle}>License Plate Scanner</Text>
+        <GoogleSignIn onSignInSuccess={handleSignInSuccess} />
+      </View>
 
-      <GoogleSignIn onSignInSuccess={handleSignInSuccess} />
+      {/* Dev link - optional, can be removed */}
+      {/* <Link style={styles.link} href="/home">
+        Go to home
+      </Link> */}
     </View>
   );
 }
@@ -54,16 +62,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
     backgroundColor: "#d1d4d2ff",
+  },
+  contentWrapper: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 45,
     fontWeight: "bold",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   subtitle: {
-    fontSize: 12,
-    color: "#666666ff",
+    fontSize: 16,
+    color: "#666",
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  link: {
+    fontStyle: "italic",
+    color: "blue",
+    textAlign: "center",
+    padding: 20,
   },
 });

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "Plates",
+    "slug": "plates",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "client",
+    "scheme": "plates",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

@@ -14,7 +14,6 @@ import { AuthSessionResult } from "expo-auth-session";
 
 WebBrowser.maybeCompleteAuthSession();
 
-// Define the type for props
 interface GoogleSignInProps {
   onSignInSuccess?: (data: { token: string; user: any }) => void;
 }
@@ -59,7 +58,6 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
         } = await backendResponse.json();
 
         if (data.success && data.data) {
-          // Store JWT + user
           await AsyncStorage.setItem("userToken", data.data.token);
           await AsyncStorage.setItem(
             "userData",
@@ -75,7 +73,7 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
           setError(data.message || "Authentication failed");
         }
       } catch (err) {
-        console.error("Sign in error:", err);
+        console.error("❌ Sign in error:", err);
         setError("Failed to connect to server");
       } finally {
         setLoading(false);
@@ -95,7 +93,7 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
       {error && <Text style={styles.errorText}>{error}</Text>}
 
       {loading ? (
-        <ActivityIndicator size="large" color="#4285F4" />
+        <ActivityIndicator size="large" color="#0a6b07b7" />
       ) : (
         <TouchableOpacity
           style={[
@@ -105,7 +103,7 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
           onPress={handleSignIn}
           disabled={!request || loading}
         >
-          <Text style={styles.buttonText}>Google</Text>
+          <Text style={styles.buttonText}>Sign in with Google</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -114,23 +112,31 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     alignItems: "center",
+    position: "fixed",
+    bottom: 120,
+    width: "100%",
   },
   errorText: {
     color: "red",
-    marginBottom: 10,
     textAlign: "center",
+    marginBottom: 15,
+    paddingHorizontal: 20,
   },
   button: {
     backgroundColor: "#0a6b07b7",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: 14,
+    paddingHorizontal: 32,
     borderRadius: 40,
-    width: "80%",
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   buttonDisabled: {
     backgroundColor: "#A0C3FF",
+    elevation: 0,
   },
   buttonText: {
     color: "#fff",
