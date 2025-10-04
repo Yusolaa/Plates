@@ -87,17 +87,12 @@ export default function LoginScreen() {
       <View className="flex-1 justify-center items-center px-5">
         {/* Animated Title */}
         <Animated.View style={titleAnimatedStyle}>
-          <Text
-            className="text-5xl mb-2"
-            style={{ fontFamily: "Lobster_400Regular" }}
-          >
-            Plates
-          </Text>
+          <Text className="text-5xl mb-2 tracking-widest">Plates</Text>
         </Animated.View>
 
         {/* Animated Subtitle */}
         <Animated.View style={subtitleAnimatedStyle}>
-          <Text className="text-base text-gray-600 mb-8 text-center">
+          <Text className="text-base text-gray-600 mb-8 text-center font-lobster-two tracking-widest">
             License Plate Scanner
           </Text>
         </Animated.View>

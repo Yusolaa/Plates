@@ -1,3 +1,4 @@
+// components/GoogleSignIn.tsx
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { useEffect, useState } from "react";
@@ -5,7 +6,6 @@ import { View, Text, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthSessionResult } from "expo-auth-session";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -17,9 +17,16 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const BACKEND_URL = process.env.EXPO_PUBLIC_API_URL;
+  const ANDROID_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID;
+  const WEB_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
+
   const [request, response, promptAsync] = Google.useAuthRequest({
-    androidClientId: "ANDROID_CLIENT_ID.apps.googleusercontent.com",
-    webClientId: "WEB_CLIENT_ID.apps.googleusercontent.com",
+    androidClientId: ANDROID_CLIENT_ID,
+    webClientId: WEB_CLIENT_ID,
+    // Add these configuration options
+    usePKCE: false, // Disable PKCE for Google OAuth
+    redirectUri: "https://auth.expo.io/@your-username/your-app-slug", // Expo proxy
   });
 
   useEffect(() => {
@@ -32,14 +39,13 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
       setError(null);
 
       try {
-        const backendResponse = await fetch(
-          "http://BACKEND_IP:5000/api/auth/google",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idToken: resp.authentication.idToken }),
-          }
-        );
+        console.log("Sending to backend:", BACKEND_URL);
+
+        const backendResponse = await fetch(BACKEND_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idToken: resp.authentication.idToken }),
+        });
 
         const data = await backendResponse.json();
 
@@ -62,20 +68,21 @@ export default function GoogleSignIn({ onSignInSuccess }: GoogleSignInProps) {
       }
     } else if (resp?.type === "error") {
       setError("Google Sign-In failed");
+    } else if (resp?.type === "dismiss") {
+      console.log("User dismissed the auth session");
     }
   };
 
   const handleSignIn = () => {
     setError(null);
+    // Call promptAsync directly without any delay
     promptAsync();
   };
 
   return (
     <View className="items-center w-full fixed bottom-36">
       {error && (
-        <Text className="text-red-600 text-center mb-4 px-5 font-lobster">
-          {error}
-        </Text>
+        <Text className="text-red-600 text-center mb-4 px-5">{error}</Text>
       )}
 
       {loading ? (
