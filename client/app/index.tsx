@@ -87,7 +87,9 @@ export default function LoginScreen() {
       <View className="flex-1 justify-center items-center px-5">
         {/* Animated Title */}
         <Animated.View style={titleAnimatedStyle}>
-          <Text className="text-5xl mb-2 tracking-widest">Plates</Text>
+          <Text className="text-5xl mb-2 font-lobster tracking-widest">
+            Plates
+          </Text>
         </Animated.View>
 
         {/* Animated Subtitle */}
