@@ -8,6 +8,11 @@ import {
   LobsterTwo_700Bold_Italic,
 } from "@expo-google-fonts/lobster-two";
 import { SUSEMono_400Regular } from "@expo-google-fonts/suse-mono";
+import {
+  AlanSans_400Regular,
+  AlanSans_900Black,
+  AlanSans_500Medium,
+} from "@expo-google-fonts/alan-sans";
 import { useEffect } from "react";
 
 SplashScreen.preventAutoHideAsync();
@@ -20,6 +25,9 @@ export default function RootLayout() {
     LobsterTwo_700Bold,
     LobsterTwo_700Bold_Italic,
     SUSEMono_400Regular,
+    AlanSans_400Regular,
+    AlanSans_900Black,
+    AlanSans_500Medium,
   });
 
   useEffect(() => {

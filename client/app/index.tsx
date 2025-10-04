@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
+import GetStarted from "../components/GetStarted";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import Animated, {
   useSharedValue,
   withTiming,
   useAnimatedStyle,
-  Easing,
   withSpring,
 } from "react-native-reanimated";
-import GoogleSignIn from "../components/GoogleSignIn";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Link, useRouter } from "expo-router";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -19,45 +18,47 @@ export default function LoginScreen() {
   const titleOpacity = useSharedValue(0);
   const titleScale = useSharedValue(0.5);
   const subtitleOpacity = useSharedValue(0);
-  const buttonTranslateY = useSharedValue(0);
+  const buttonTranslateY = useSharedValue(50);
 
   useEffect(() => {
-    checkExistingAuth();
+    checkOnboardingStatus();
   }, []);
 
   useEffect(() => {
     if (!isChecking) {
+      // Animate title
       titleOpacity.value = withTiming(1, { duration: 600 });
       titleScale.value = withSpring(1);
+
+      // Animate subtitle (delayed)
       setTimeout(() => {
         subtitleOpacity.value = withTiming(1, { duration: 500 });
       }, 300);
 
+      // Animate button (delayed)
       setTimeout(() => {
-        buttonTranslateY.value = withTiming(0, {
-          duration: 600,
-          easing: Easing.out(Easing.exp),
-        });
+        buttonTranslateY.value = withTiming(0, { duration: 600 });
       }, 500);
     }
   }, [isChecking]);
 
-  const checkExistingAuth = async () => {
+  const checkOnboardingStatus = async () => {
     try {
-      const token = await AsyncStorage.getItem("userToken");
-      if (token) {
-        // router.replace("/home");
+      const hasCompleted = await AsyncStorage.getItem("hasCompletedOnboarding");
+      if (hasCompleted === "true") {
+        // User has already onboarded, go to sign-in
+        router.replace("/sign-in");
       }
     } catch (error) {
-      console.error("Error checking auth:", error);
+      console.error("Error checking onboarding:", error);
     } finally {
       setIsChecking(false);
     }
   };
 
-  const handleSignInSuccess = (userData: { user: { name: any } }) => {
-    console.log("User signed in:", userData.user.name);
-    // router.replace("/home");
+  const handleGetStarted = () => {
+    console.log("User started the app");
+    router.replace("/sign-in");
   };
 
   // Animated styles
@@ -77,7 +78,7 @@ export default function LoginScreen() {
   if (isChecking) {
     return (
       <View className="flex-1 justify-center items-center bg-[#d1d4d2]">
-        <Text className="text-lg">Loading...</Text>
+        <ActivityIndicator size="large" color="#0a6b07" />
       </View>
     );
   }
@@ -87,24 +88,20 @@ export default function LoginScreen() {
       <View className="flex-1 justify-center items-center px-5">
         {/* Animated Title */}
         <Animated.View style={titleAnimatedStyle}>
-          <Text className="text-5xl mb-2 font-lobster tracking-widest">
-            Plates
-          </Text>
+          <Text className="text-5xl mb-2 font-lobster">Plates</Text>
         </Animated.View>
 
         {/* Animated Subtitle */}
         <Animated.View style={subtitleAnimatedStyle}>
-          <Text className="text-base text-gray-600 mb-8 text-center font-lobster-two tracking-widest">
+          <Text className="text-base text-gray-600 mb-8 text-center font-lobster-two">
             License Plate Scanner
           </Text>
         </Animated.View>
 
-        <GoogleSignIn onSignInSuccess={handleSignInSuccess} />
-      </View>
+        {/* Animated Button */}
 
-      {/* <Link className="text-blue-600 text-center p-5" href="/home">
-        Go to home
-      </Link> */}
+        <GetStarted onGetStarted={handleGetStarted} />
+      </View>
     </View>
   );
 }

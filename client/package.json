@@ -11,6 +11,7 @@
     "lint": "expo lint"
   },
   "dependencies": {
+    "@expo-google-fonts/alan-sans": "^0.4.0",
     "@expo-google-fonts/lobster": "^0.4.1",
     "@expo-google-fonts/lobster-two": "^0.4.1",
     "@expo-google-fonts/suse-mono": "^0.4.0",
