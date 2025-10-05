@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, Text, ActivityIndicator } from "react-native";
-import GetStarted from "../components/GetStarted";
+import GetStarted from "../components/get-started";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import Animated, {
@@ -9,6 +9,7 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
+import { StatusBar } from "expo-status-bar";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -18,7 +19,6 @@ export default function LoginScreen() {
   const titleOpacity = useSharedValue(0);
   const titleScale = useSharedValue(0.5);
   const subtitleOpacity = useSharedValue(0);
-  const buttonTranslateY = useSharedValue(50);
 
   useEffect(() => {
     checkOnboardingStatus();
@@ -34,20 +34,17 @@ export default function LoginScreen() {
       setTimeout(() => {
         subtitleOpacity.value = withTiming(1, { duration: 500 });
       }, 300);
-
-      // Animate button (delayed)
-      setTimeout(() => {
-        buttonTranslateY.value = withTiming(0, { duration: 600 });
-      }, 500);
     }
   }, [isChecking]);
 
   const checkOnboardingStatus = async () => {
     try {
       const hasCompleted = await AsyncStorage.getItem("hasCompletedOnboarding");
-      if (hasCompleted === "true") {
-        // User has already onboarded, go to sign-in
-        router.replace("/sign-in");
+      const username = await AsyncStorage.getItem("username");
+
+      if (hasCompleted === "true" && username) {
+        router.replace("/home");
+      } else {
       }
     } catch (error) {
       console.error("Error checking onboarding:", error);
@@ -56,9 +53,9 @@ export default function LoginScreen() {
     }
   };
 
-  const handleGetStarted = () => {
-    console.log("User started the app");
-    router.replace("/sign-in");
+  const handleComplete = async (username: string) => {
+    console.log("User completed setup:", username);
+    router.replace("/home");
   };
 
   // Animated styles
@@ -84,23 +81,20 @@ export default function LoginScreen() {
   }
 
   return (
-    <View className="flex-1 bg-wintergreen-dark justify-center">
+    <View className="flex-1 bg-[#c3d1bf] justify-center items-center">
       <View className="flex-1 justify-center items-center px-5">
-        {/* Animated Title */}
         <Animated.View style={titleAnimatedStyle}>
           <Text className="text-5xl mb-2 font-lobster">Plates</Text>
         </Animated.View>
 
-        {/* Animated Subtitle */}
         <Animated.View style={subtitleAnimatedStyle}>
           <Text className="text-base text-gray-600 mb-8 text-center font-lobster-two">
             License Plate Scanner
           </Text>
         </Animated.View>
 
-        {/* Animated Button */}
-
-        <GetStarted onGetStarted={handleGetStarted} />
+        <GetStarted onComplete={handleComplete} />
+        <StatusBar style="auto" />
       </View>
     </View>
   );
