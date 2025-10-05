@@ -1,88 +1,125 @@
+// app/(tabs)/_layout.tsx
 import React from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Tabs, useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
-// import { BlurView } from "expo-blur";
 
 const TabsLayout = () => {
   const router = useRouter();
 
   return (
-    <View className="flex-1 bg-black">
-      <Tabs
-        screenOptions={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarStyle: {
-            backgroundColor: "#000",
-            borderTopWidth: 0,
-            height: 80,
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            borderTopLeftRadius: 35,
-            borderTopRightRadius: 35,
-            elevation: 20,
-          },
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          position: "absolute",
+          bottom: 25,
+          marginRight: 20,
+          marginLeft: 20,
+          height: 70,
+          borderRadius: 20,
+          backgroundColor: "rgba(26, 26, 26, 0.95)",
+          borderWidth: 1,
+          borderColor: "rgba(255, 255, 255, 0.1)",
+          paddingBottom: 0,
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 10 },
+          shadowOpacity: 0.3,
+          shadowRadius: 20,
+          elevation: 10,
+        },
+      }}
+    >
+      {/* HOME TAB */}
+      <Tabs.Screen
+        name="home"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.iconContainer}>
+              {focused && <View style={styles.activeDot} />}
+              <FontAwesome
+                name="home"
+                size={24}
+                color={focused ? "#ffffff" : "#8c9e75"}
+              />
+            </View>
+          ),
         }}
-      >
-        {/* LEFT TAB */}
-        <Tabs.Screen
-          name="home"
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <View className="items-center justify-center">
-                <FontAwesome
-                  name="th-large"
-                  size={24}
-                  color={focused ? "#ffb800" : "#aaaaaa"}
-                />
-              </View>
-            ),
-          }}
-        />
+      />
 
-        {/* PLACEHOLDER CENTER TAB */}
-        <Tabs.Screen
-          name="scan"
-          options={{
-            tabBarButton: () => (
-              <TouchableOpacity
-                activeOpacity={0.9}
-                onPress={() => router.push("/scan")}
-                className="absolute -top-8 bg-black rounded-full p-4 shadow-lg"
-                style={{
-                  alignSelf: "center",
-                  elevation: 10,
-                }}
-              >
-                <View className="bg-[#1a1a1a] rounded-full p-5 border border-gray-700">
-                  <FontAwesome name="qrcode" size={26} color="#ffffff" />
-                </View>
-              </TouchableOpacity>
-            ),
-          }}
-        />
-
-        {/* RIGHT TAB */}
-        <Tabs.Screen
-          name="history"
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <View className="items-center justify-center">
-                <FontAwesome
-                  name="history"
-                  size={24}
-                  color={focused ? "#ffb800" : "#aaaaaa"}
-                />
+      {/* SCAN TAB */}
+      <Tabs.Screen
+        name="scan"
+        options={{
+          tabBarButton: () => (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => router.push("/scan")}
+              style={styles.centerButton}
+            >
+              <View style={styles.scanButton}>
+                <FontAwesome name="qrcode" size={26} color="#ffffff" />
               </View>
-            ),
-          }}
-        />
-      </Tabs>
-    </View>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
+      {/* HISTORY TAB */}
+      <Tabs.Screen
+        name="history"
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.iconContainer}>
+              {focused && <View style={styles.activeDot} />}
+              <FontAwesome
+                name="history"
+                size={24}
+                color={focused ? "#ffffff" : "#8c9e75"}
+              />
+            </View>
+          ),
+        }}
+      />
+    </Tabs>
   );
 };
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  activeDot: {
+    position: "absolute",
+    transform: [{ translateY: 10 }],
+
+    bottom: -10,
+    width: 20,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "#4CAF50",
+  },
+  centerButton: {
+    top: -20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  scanButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "#4CAF50",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#4CAF50",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+});
 
 export default TabsLayout;
