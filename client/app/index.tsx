@@ -84,7 +84,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <View className="flex-1 bg-[#d1d4d2]">
+    <View className="flex-1 bg-wintergreen-dark justify-center">
       <View className="flex-1 justify-center items-center px-5">
         {/* Animated Title */}
         <Animated.View style={titleAnimatedStyle}>

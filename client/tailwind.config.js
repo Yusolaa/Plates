@@ -14,6 +14,12 @@ module.exports = {
         "alan-black": ["AlanSans_900Black"],
         "alan-medium": ["AlanSans_500Medium"],
       },
+      colors: {
+        wintergreen: "#8fcf99",
+        "wintergreen-dark": "	#28b882 ",
+        "green-gc": "#748f75",
+        "green-gc-dark": "#8c9e75",
+      },
     },
   },
   plugins: [],
