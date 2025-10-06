@@ -1,4 +1,3 @@
-// app/(tabs)/_layout.tsx
 import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Tabs, useRouter } from "expo-router";
@@ -23,10 +22,7 @@ const TabsLayout = () => {
           borderWidth: 1,
           borderColor: "rgba(255, 255, 255, 0.1)",
           paddingBottom: 0,
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 10 },
-          shadowOpacity: 0.3,
-          shadowRadius: 20,
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
           elevation: 10,
         },
       }}
@@ -59,7 +55,11 @@ const TabsLayout = () => {
               style={styles.centerButton}
             >
               <View style={styles.scanButton}>
-                <FontAwesome name="qrcode" size={26} color="#ffffff" />
+                <FontAwesome
+                  name="camera"
+                  size={26}
+                  className="text-green-gc"
+                />
               </View>
             </TouchableOpacity>
           ),
@@ -111,14 +111,11 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: "#4CAF50",
+    backgroundColor: "#ffffff",
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#4CAF50",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-    elevation: 8,
+    boxShadow: "0 4px 10px rgba(5, 5, 0, 0.3)",
+    elevation: 10,
   },
 });
 

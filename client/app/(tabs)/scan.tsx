@@ -3,7 +3,7 @@ import React from "react";
 
 const Scan = () => {
   return (
-    <View>
+    <View className="p-5">
       <Text>Scan</Text>
     </View>
   );
