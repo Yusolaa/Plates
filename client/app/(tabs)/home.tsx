@@ -11,6 +11,14 @@ import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
+
+const keyFeatures = [
+  { id: "1", name: "Fast Scanning", icon: "speed", bgcolour: "#e0301e" },
+  { id: "2", name: "Scan History", icon: "history", bgcolour: "#646f58" },
+  { id: "3", name: "Secure Storage", icon: "lock", bgcolour: "#d0b783" },
+  { id: "4", name: "Export Data", icon: "cloud-upload", bgcolour: "#204c39" },
+];
+
 const Home = () => {
   const [username, setUsername] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -63,7 +71,7 @@ const Home = () => {
 
             {/* Primary Action */}
             <TouchableOpacity
-              className="bg-indigo-600 rounded-2xl p-6 mb-8 shadow-lg"
+              className="bg-[#8c9e75] rounded-2xl p-6 mb-8 shadow-lg"
               activeOpacity={0.8}
               onPress={() => router.push("/scan")}
             >
@@ -84,23 +92,23 @@ const Home = () => {
 
             {/* How It Works */}
             <View className="bg-gray-100 p-6 mb-8 rounded-br-2xl rounded-tl-2xl">
-              <Text className="text-lg font-bold text-gray-900 mb-4">
+              <Text className="font-alan-medium text-lg  text-gray-900 mb-4">
                 How It Works
               </Text>
 
               <View className="mb-4">
-                <View className="flex-row items-start">
-                  <View className="w-10 h-10 bg-indigo-100 rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
-                    <Text className="text-indigo-600 font-bold text-base">
+                <View className="flex-row items-start ">
+                  <View className="w-10 h-10 bg-green-gc rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
+                    <Text className="font-suse text-white font-bold text-base">
                       1
                     </Text>
                   </View>
                   <View className="flex-1">
-                    <Text className="text-base font-semibold text-gray-900 mb-1">
+                    <Text className="font-alan-medium text-base text-gray-900 mb-1">
                       Point Camera
                     </Text>
-                    <Text className="text-sm text-gray-600">
-                      Aim your camera at the license plate
+                    <Text className="font-suse text-sm text-gray-600">
+                      Aim camera at the license plate
                     </Text>
                   </View>
                 </View>
@@ -108,17 +116,15 @@ const Home = () => {
 
               <View className="mb-4">
                 <View className="flex-row items-start">
-                  <View className="w-10 h-10 bg-indigo-100 rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
-                    <Text className="text-indigo-600 font-bold text-base">
-                      2
-                    </Text>
+                  <View className="w-10 h-10 bg-green-gc rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
+                    <Text className="text-white font-bold text-base">2</Text>
                   </View>
                   <View className="flex-1">
-                    <Text className="text-base font-semibold text-gray-900 mb-1">
+                    <Text className="font-alan-medium text-base text-gray-900 mb-1">
                       Auto Recognition
                     </Text>
-                    <Text className="text-sm text-gray-600">
-                      AI reads the plate number instantly
+                    <Text className=" font-suse text-sm text-gray-600">
+                      Read the plate number instantly
                     </Text>
                   </View>
                 </View>
@@ -126,17 +132,15 @@ const Home = () => {
 
               <View>
                 <View className="flex-row items-start">
-                  <View className="w-10 h-10 bg-indigo-100 rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
-                    <Text className="text-indigo-600 font-bold text-base">
-                      3
-                    </Text>
+                  <View className="w-10 h-10 bg-green-gc rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
+                    <Text className="text-white font-bold text-base">3</Text>
                   </View>
                   <View className="flex-1">
-                    <Text className="text-base font-semibold text-gray-900 mb-1">
+                    <Text className="font-alan-medium text-base text-gray-900 mb-1">
                       Save & Manage
                     </Text>
-                    <Text className="text-sm text-gray-600">
-                      Add notes and access history anytime
+                    <Text className="font-suse text-sm text-gray-600">
+                      Access history anytime
                     </Text>
                   </View>
                 </View>
@@ -145,63 +149,50 @@ const Home = () => {
 
             {/* Features */}
             <View className="mb-8">
-              <Text className="text-lg font-bold text-gray-900 mb-4">
+              <Text className="font-alan-medium text-lg text-gray-900 mb-4">
                 Key Features
               </Text>
               <View className="flex-row flex-wrap -mx-2">
-                <View className="w-1/2 px-2 mb-4">
-                  <View className="bg-white border border-gray-200 rounded-br-2xl rounded-tl-2xl p-4">
-                    <MaterialIcons name="speed" size={24} color="#4F46E5" />
-                    <Text className="text-sm font-semibold text-gray-900 mt-2">
-                      Fast Scanning
-                    </Text>
+                {keyFeatures.map((feature) => (
+                  <View key={feature.id} className="w-1/2 px-2 mb-4">
+                    <View
+                      className="bg-gray-50 border border-gray-200 rounded-br-2xl rounded-tl-2xl p-4 items-center"
+                      {...{
+                        style: { backgroundColor: feature.bgcolour + "20" },
+                      }}
+                    >
+                      <MaterialIcons
+                        name={
+                          feature.icon as React.ComponentProps<
+                            typeof MaterialIcons
+                          >["name"]
+                        }
+                        size={24}
+                        color={feature.bgcolour}
+                      />
+                      <Text className="text-sm text-gray-900 mt-2 text-center font-alan-medium">
+                        {feature.name}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-                <View className="w-1/2 px-2 mb-4">
-                  <View className="bg-white border border-gray-200 rounded-br-2xl rounded-tl-2xl p-4">
-                    <MaterialIcons name="history" size={24} color="#4F46E5" />
-                    <Text className="text-sm font-semibold text-gray-900 mt-2">
-                      Scan History
-                    </Text>
-                  </View>
-                </View>
-                <View className="w-1/2 px-2 mb-4">
-                  <View className="bg-white border border-gray-200 rounded-br-2xl rounded-tl-2xl p-4">
-                    <MaterialIcons name="lock" size={24} color="#4F46E5" />
-                    <Text className="text-sm font-semibold text-gray-900 mt-2">
-                      Secure Storage
-                    </Text>
-                  </View>
-                </View>
-                <View className="w-1/2 px-2 mb-4">
-                  <View className="bg-white border border-gray-200 rounded-br-2xl rounded-tl-2xl p-4">
-                    <MaterialIcons
-                      name="cloud-upload"
-                      size={24}
-                      color="#4F46E5"
-                    />
-                    <Text className="text-sm font-semibold text-gray-900 mt-2">
-                      Export Data
-                    </Text>
-                  </View>
-                </View>
+                ))}
               </View>
             </View>
 
             {/* Quick Actions */}
             <View className="mb-8">
-              <Text className="text-lg font-bold text-gray-900 mb-4">
+              <Text className="font-alan-medium text-lg text-gray-900 mb-4">
                 Quick Access
               </Text>
               <View className="flex-row -mx-2">
                 <TouchableOpacity
                   className="flex-1 mx-2 bg-gray-50 border border-gray-200 rounded-br-2xl rounded-tl-2xl p-4 items-center"
                   activeOpacity={0.7}
-                  onPress={() => router.push("/history")}
+                  onPress={() => router.push("/scan")}
                 >
-                  <MaterialIcons name="history" size={24} color="#4F46E5" />
-                  <Text className="text-sm font-semibold text-gray-900 mt-2">
-                    History
+                  <MaterialIcons name="camera" size={24} color="#4F46E5" />
+                  <Text className="text-sm font-alan-medium text-gray-900 mt-2">
+                    Scan
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -209,9 +200,9 @@ const Home = () => {
                   activeOpacity={0.7}
                   onPress={() => router.push("/history")}
                 >
-                  <Ionicons name="settings-outline" size={24} color="#4F46E5" />
-                  <Text className="text-sm font-semibold text-gray-900 mt-2">
-                    Settings
+                  <MaterialIcons name="history" size={24} color="#4F46E5" />
+                  <Text className="text-sm font-alan-medium text-gray-900 mt-2">
+                    History
                   </Text>
                 </TouchableOpacity>
               </View>

@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
   activeDot: {
     position: "absolute",
     transform: [{ translateY: 10 }],
-
     bottom: -10,
     width: 20,
     height: 4,

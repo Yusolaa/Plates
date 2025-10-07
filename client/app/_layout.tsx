@@ -7,7 +7,10 @@ import {
   LobsterTwo_700Bold,
   LobsterTwo_700Bold_Italic,
 } from "@expo-google-fonts/lobster-two";
-import { SUSEMono_400Regular } from "@expo-google-fonts/suse-mono";
+import {
+  SUSEMono_300Light,
+  SUSEMono_400Regular,
+} from "@expo-google-fonts/suse-mono";
 import {
   AlanSans_400Regular,
   AlanSans_900Black,
@@ -20,7 +23,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded, error] = useFonts({
-    Lobster_400Regular,
+    SUSEMono_300Light,
     LobsterTwo_400Regular,
     LobsterTwo_400Regular_Italic,
     LobsterTwo_700Bold,

@@ -10,7 +10,7 @@ module.exports = {
         "lobster-two-italic": ["LobsterTwo_400Regular_Italic"],
         "lobster-two-bold": ["LobsterTwo_700Bold"],
         "lobster-two-bold-italic": ["LobsterTwo_700Bold_Italic"],
-        suse: ["SUSEMono_400Regular"],
+        suse: ["SUSEMono_300Light,"],
         alan: ["AlanSans_400Regular"],
         "alan-black": ["AlanSans_900Black"],
         "alan-medium": ["AlanSans_500Medium"],
