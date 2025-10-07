@@ -98,7 +98,7 @@ const Home = () => {
 
               <View className="mb-4">
                 <View className="flex-row items-start ">
-                  <View className="w-10 h-10 bg-green-gc rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
+                  <View className="w-10 h-10 bg-[#e0301e] rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
                     <Text className="font-suse text-white font-bold text-base">
                       1
                     </Text>
@@ -116,7 +116,7 @@ const Home = () => {
 
               <View className="mb-4">
                 <View className="flex-row items-start">
-                  <View className="w-10 h-10 bg-green-gc rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
+                  <View className="w-10 h-10 bg-[#646f58] rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
                     <Text className="text-white font-bold text-base">2</Text>
                   </View>
                   <View className="flex-1">
@@ -132,7 +132,7 @@ const Home = () => {
 
               <View>
                 <View className="flex-row items-start">
-                  <View className="w-10 h-10 bg-green-gc rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
+                  <View className="w-10 h-10 bg-[#d0b783] rounded-bl-2xl rounded-tr-2xl items-center justify-center mr-4">
                     <Text className="text-white font-bold text-base">3</Text>
                   </View>
                   <View className="flex-1">
@@ -156,7 +156,7 @@ const Home = () => {
                 {keyFeatures.map((feature) => (
                   <View key={feature.id} className="w-1/2 px-2 mb-4">
                     <View
-                      className="bg-gray-50 border border-gray-200 rounded-br-2xl rounded-tl-2xl p-4 items-center"
+                      className="border border-gray-200 rounded-br-2xl rounded-tl-2xl p-4 items-center"
                       {...{
                         style: { backgroundColor: feature.bgcolour + "20" },
                       }}
