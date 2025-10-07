@@ -14,6 +14,7 @@ import {
   AlanSans_500Medium,
 } from "@expo-google-fonts/alan-sans";
 import { useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,6 +45,7 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <StatusBar style="dark" />
     </Stack>
   );
 }
