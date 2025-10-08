@@ -58,7 +58,7 @@ const TabsLayout = () => {
                 <FontAwesome
                   name="camera"
                   size={26}
-                  className="text-green-gc"
+                  className="text-green-gc animate-pulse"
                 />
               </View>
             </TouchableOpacity>

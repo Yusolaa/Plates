@@ -105,7 +105,12 @@ const Home = () => {
                   </Text>
                 </View>
                 <View className="w-14 h-14  border border-white rounded-bl-2xl rounded-tr-2xl items-center justify-center">
-                  <Ionicons name="camera" size={28} color="white" />
+                  <Ionicons
+                    name="camera"
+                    size={28}
+                    color="white"
+                    className="animate-pulse"
+                  />
                 </View>
               </View>
             </TouchableOpacity>
@@ -174,7 +179,11 @@ const Home = () => {
                   activeOpacity={0.7}
                   onPress={() => router.push("/scan")}
                 >
-                  <MaterialIcons name="camera" size={24} color="#204c39" />
+                  <MaterialIcons
+                    name="photo-camera"
+                    size={24}
+                    color="#204c39"
+                  />
                   <Text className="text-sm font-alan-medium text-gray-900 mt-2">
                     Scan
                   </Text>

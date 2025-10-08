@@ -1,38 +1,71 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import React from "react";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
+import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
+import { useState } from "react";
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const Scan = () => {
+export default function App() {
+  const [facing, setFacing] = useState<CameraType>("back");
+  const [permission, requestPermission] = useCameraPermissions();
+
+  if (!permission) {
+    // Camera permissions are still loading.
+    return <View />;
+  }
+
+  if (!permission.granted) {
+    // Camera permissions are not granted yet.
+    return (
+      <View style={styles.container}>
+        <Text style={styles.message}>
+          We need your permission to show the camera
+        </Text>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
+  }
+
+  function toggleCameraFacing() {
+    setFacing((current) => (current === "back" ? "front" : "back"));
+  }
+
   return (
-    <SafeAreaView className="flex-1 bg-white mb-20">
-      <FlatList
-        data={[]}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={null}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={() => (
-          <View className="px-6 pt-10">
-            {/* Welcome Header */}
-            <View className="mb-8">
-              <Text className="text-3xl font-bold text-gray-900 mb-2">
-                Scan
-              </Text>
-            </View>
-
-            <View className="flex-1 items-center justify-center"></View>
-            <Ionicons name="camera" size={100} color="#D1D5DB" />
-            <Text className="text-lg text-gray-400 mt-4">
-              Camera Screen Placeholder
-            </Text>
-          </View>
-        )}
-      />
-      <StatusBar style="dark" />
-    </SafeAreaView>
+    <View style={styles.container}>
+      <CameraView style={styles.camera} facing={facing} />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+          <Text style={styles.text}>Flip Camera</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
-};
+}
 
-export default Scan;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  message: {
+    textAlign: "center",
+    paddingBottom: 10,
+  },
+  camera: {
+    flex: 1,
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 64,
+    flexDirection: "row",
+    backgroundColor: "transparent",
+    width: "100%",
+    paddingHorizontal: 64,
+  },
+  button: {
+    flex: 1,
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "white",
+  },
+});
